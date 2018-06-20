@@ -25,7 +25,7 @@
 #layout{
   height: 250px;
   width: 50%;
-  margin-top: 15%;
+  margin-top: 5%;
   margin-left: 35%;
 }
 
@@ -43,6 +43,12 @@ border-radius: 12px;
 width:50%;
 margin-left:20%;
 }
+
+.active_profile
+{
+background-color: #82E0AA;
+}
+
 </style>
 
 </head>
@@ -51,16 +57,17 @@ margin-left:20%;
 <script>
 $(function(){
 var status=false;
+// active profile -- #82E0AA;
+// Inactive profile -- bg-light
 
 //Welcome message
-alertify.alert(' ## -- Welcome -- ## ', "Let's Start .. :)")
+alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
 .set('closable', true)
 .set('label', '<i class="far fa-2x fa-hand-point-right" style="color:green;"></i>')
 .set('movable','false')
 .set({transition:'flipy'}).show();
-//alertify.alert('Alert Message!');
-//swal(" ## -- Welcome.. -- ## ", "Let's Start .. :)");
-//alert(" ## -- Player1 Turn -- ## ");
+
+
 $(".button_custom").click(function(){
 if (typeof(Storage) !== "undefined") {
     
@@ -68,14 +75,24 @@ if (typeof(Storage) !== "undefined") {
 	{
 	  sessionStorage.setItem("online","Player1");
 	  status=true;
-	  alertify.set('notifier','position', 'top-center');
-	  alertify.success('<i class="fa fa-reddit"></i> ## -- Player2 Turn -- ## ',"1.2"); 
+	  $("#profile1").removeClass("active_profile");
+	  $("#profile1").addClass("bg-light");
+
+	  $("#profile2").removeClass("bg-light");
+	  $("#profile2").addClass("active_profile");
+	  //alertify.set('notifier','position', 'top-center');
+	  //alertify.success(' ## -- Player2 Turn -- ## ',"1.2"); 
 	}
 	else if(sessionStorage.getItem("online")==="Player1")
 	{
 	  sessionStorage.setItem("online","Player2");
-	  alertify.set('notifier','position', 'top-center');
-	  alertify.success('<i class="fa fa-github-alt"></i> ## -- Player1 Turn -- ## ',"1.2"); 
+	  $("#profile2").removeClass("active_profile");
+	  $("#profile2").addClass("bg-light");
+	  
+	  $("#profile1").removeClass("bg-light");
+	  $("#profile1").addClass("active_profile");
+	  //alertify.set('notifier','position', 'top-center');
+	  //alertify.success('<i class="fa fa-github-alt"></i> ## -- Player1 Turn -- ## ',"1.2"); 
 	}
 	
 } else {
@@ -90,25 +107,28 @@ if (typeof(Storage) !== "undefined") {
 </script>
 
 <!-- Player Info -->
-<div id="player_info">
-<div class="card" style="width: 10rem; height: 10rem; float:right;">
-  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+<div id="player_info" style="margin-top: 20px;">
+<div class="card border-secondary mb-3">
+  <div class="card-header">
+    PLAYERS
+  </div>
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+  <div class="card-group">
+  <div id="profile1" class="card active_profile">
+    <div class="card-body">
+	  <i class="card-img-top fab fa-reddit fa-3x"></i>
+      <h5 class="card-title">Player1</h5>
+    </div>
+  </div>
+  <div id="profile2" class="card bg-light">
+    <div class="card-body">
+	  <i class="card-img-top fab fa-github-alt fa-3x"></i>
+      <h5 class="card-title">Player2</h5>
+    </div> 
   </div>
 </div>
-
-<div class="card" style="width: 10rem; height:10 rem;">
-  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>
-
 </div>
 
 
