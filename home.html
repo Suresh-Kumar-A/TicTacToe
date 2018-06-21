@@ -39,7 +39,6 @@ width:80px;
 
 .btn-light{
 border-color: bisque;
-border-radius: 12px;
 }
 
 #player_info{
@@ -59,7 +58,7 @@ background-color: #82E0AA;
 }
 
 .swal-button--Right{
- background-color: #e8daef;
+ background-color: #f8c471;
 }
 
 .swal-button--Top{
@@ -77,8 +76,13 @@ background-color: #82E0AA;
 <script>
 $(function(){
 var status=false;
+var linecolor='';
+var ownerpic='';
+
 // active profile -- #82E0AA;
 // Inactive profile -- bg-light
+// Player1 - #7fb3d5
+// Player2 - #f1c40f
 
 //Welcome message
 alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
@@ -90,7 +94,8 @@ alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
 
 $(".button_custom").click(function(){
 if (typeof(Storage) !== "undefined") {
-    
+    	
+    //Profile Swaping
 	if(status==false || (sessionStorage.getItem("online")==="Player2"))
 	{
 	  sessionStorage.setItem("online","Player1");
@@ -100,7 +105,9 @@ if (typeof(Storage) !== "undefined") {
 
 	  $("#profile2").removeClass("bg-light");
 	  $("#profile2").addClass("active_profile");
-	   
+	  linecolor='#7fb3d5';
+	  $(this).attr("data-owner","Player1");
+	  ownerpic='<i class="card-img-top fab fa-reddit fa-3x"></i>';
 	}
 	else if(sessionStorage.getItem("online")==="Player1")
 	{
@@ -110,43 +117,78 @@ if (typeof(Storage) !== "undefined") {
 	  
 	  $("#profile1").removeClass("bg-light");
 	  $("#profile1").addClass("active_profile");
-	  
+	  linecolor='#f1c40f';
+	  $(this).attr("data-owner","Player2");
+	  ownerpic='<i class="card-img-top fab fa-github-alt fa-3x"></i>';
 	}
-    
-	// Choices button to draw line
+	
+	// Check Whether left-right-top-bottom
 	swal({ buttons: { 
-	   Left: {text: "LEFT",value:"left",}, 
-	   Right: {text: "RIGHT",value:"right",},
 	   Top: {text: "TOP",value:"top",}, 
-	   Bottom:{text: "Bottom",value:"bottom",}
+	   Bottom:{text: "Bottom",value:"bottom",},
+	   Left: {text: "LEFT",value:"left",}, 
+	   Right: {text: "RIGHT",value:"right",}
 	   },
 	   })
-	   .then((value) => {
-  switch (value) {
-  
-    case "left":
-       $(this).css("border-left","4px solid #7fb3d5");
+	.then((value) => 
+	{
+    switch (value) 
+    {
+    case "left": if($(this).data("left")===false || typeof $(this).data("left")==='undefined'){
+       $(this).css("border-left","4px solid "+linecolor);
+	   $(this).attr("data-left",true);
+	   if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+		}
+	   }
       break;
-	case "right":
-      $(this).css("border-right","4px solid #b03a2e");
+	case "right": if($(this).data("right")===false || typeof $(this).data("right")==='undefined'){
+      $(this).css("border-right","4px solid "+linecolor);
+	  $(this).attr("data-right",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+        }
+	  }
       break;
-    case "top":
-      $(this).css("border-top","4px solid #0ea3d5");
+    case "top": if($(this).data("top")===false || typeof $(this).data("top")==='undefined'){
+      $(this).css("border-top","4px solid "+linecolor);
+	  $(this).attr("data-top",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+		}
+	  }
       break;
-	case "bottom":
-      $(this).css("border-bottom","4px solid  #8e44ad");
+	case "bottom": if($(this).data("bottom")===false || typeof $(this).data("bottom")==='undefined'){
+      $(this).css("border-bottom","4px solid "+linecolor);
+	  $(this).attr("data-bottom",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+         $(this).css("background-color",linecolor);
+         $(this).css("border-color",linecolor);
+		 $(this).html(ownerpic);
+		}
+	  }
       break;
     default:
       console.log("Nothing");
   }
 });
 	
-} else {
+} 
+else {
     alertify.alert("Sorry :( .. Browser Not Supported ..!!!!!");
 }
 
 });
-
 
 });
 
@@ -182,19 +224,19 @@ if (typeof(Storage) !== "undefined") {
 <div id="layout">
   <!-- Div for each set of 3 blocks -->
   <div class="row">
-    <button type="button" class="btn btn-light button_custom">L1</button>
-	<button type="button" class="btn btn-light button_custom">L2</button>
-	<button type="button" class="btn btn-light button_custom">L3</button>
+    <button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
   </div>
   <div class="row">
-    <button type="button" class="btn btn-light button_custom">L4</button>
-	<button type="button" class="btn btn-light button_custom">L5</button>
-	<button type="button" class="btn btn-light button_custom">L6</button>
+    <button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
   </div>
   <div class="row">
-    <button type="button" class="btn btn-light button_custom">L7</button>
-	<button type="button" class="btn btn-light button_custom">L8</button>
-	<button type="button" class="btn btn-light button_custom">L9</button>
+    <button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
+	<button type="button" class="btn btn-light button_custom">0</button>
   </div>
   
 </div>
