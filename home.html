@@ -20,6 +20,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.rtl.min.css"/>
 
+<!-- Sweet Alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- Css Properties -->
 <style>
 #layout{
@@ -49,6 +52,23 @@ margin-left:20%;
 background-color: #82E0AA;
 }
 
+.swal-footer
+{
+  text-align: center;
+  margin-top: 0px;
+}
+
+.swal-button--Right{
+ background-color: #e8daef;
+}
+
+.swal-button--Top{
+ background-color: #f5cba7;
+}
+
+.swal-button--Left{
+ background-color: #f5b7b1;
+}
 </style>
 
 </head>
@@ -80,8 +100,7 @@ if (typeof(Storage) !== "undefined") {
 
 	  $("#profile2").removeClass("bg-light");
 	  $("#profile2").addClass("active_profile");
-	  //alertify.set('notifier','position', 'top-center');
-	  //alertify.success(' ## -- Player2 Turn -- ## ',"1.2"); 
+	   
 	}
 	else if(sessionStorage.getItem("online")==="Player1")
 	{
@@ -91,9 +110,36 @@ if (typeof(Storage) !== "undefined") {
 	  
 	  $("#profile1").removeClass("bg-light");
 	  $("#profile1").addClass("active_profile");
-	  //alertify.set('notifier','position', 'top-center');
-	  //alertify.success('<i class="fa fa-github-alt"></i> ## -- Player1 Turn -- ## ',"1.2"); 
+	  
 	}
+    
+	// Choices button to draw line
+	swal({ buttons: { 
+	   Left: {text: "LEFT",value:"left",}, 
+	   Right: {text: "RIGHT",value:"right",},
+	   Top: {text: "TOP",value:"top",}, 
+	   Bottom:{text: "Bottom",value:"bottom",}
+	   },
+	   })
+	   .then((value) => {
+  switch (value) {
+  
+    case "left":
+       $(this).css("border-left","4px solid #7fb3d5");
+      break;
+	case "right":
+      $(this).css("border-right","4px solid #b03a2e");
+      break;
+    case "top":
+      $(this).css("border-top","4px solid #0ea3d5");
+      break;
+	case "bottom":
+      $(this).css("border-bottom","4px solid  #8e44ad");
+      break;
+    default:
+      console.log("Nothing");
+  }
+});
 	
 } else {
     alertify.alert("Sorry :( .. Browser Not Supported ..!!!!!");
