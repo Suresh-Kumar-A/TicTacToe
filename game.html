@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title> Tic-Tac-Toe</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Linking Dependency Files -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
+<!-- Font Icons -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<!-- Alert Dialog Js -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.rtl.min.css"/>
+
+<!-- Sweet Alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- Css Properties -->
+<style>
+#layout{
+  height: 250px;
+  width: 50%;
+  margin-top: 5%;
+  margin-left: 35%;
+}
+
+.button_custom{
+height:80px;
+width:80px;
+margin:0.8%;
+}
+
+.btn-light{
+border-color: bisque;
+}
+
+#player_info{
+width:50%;
+margin-left:20%;
+}
+
+.active_profile
+{
+background-color: #82E0AA;
+}
+
+.swal-footer
+{
+  text-align: center;
+  margin-top: 0px;
+}
+
+.swal-button--Right{
+ background-color: #f8c471;
+}
+
+.swal-button--Top{
+ background-color: #f5cba7;
+}
+
+.swal-button--Left{
+ background-color: #f5b7b1;
+}
+</style>
+
+</head>
+<body style="background-color:#D6DBDF;">
+<!-- Custom Script-->
+<script>
+$(function(){
+var status=false;
+var linecolor='';
+var ownerpic='';
+var count=0;
+var score1=0;
+var score2=0;
+
+// active profile -- #82E0AA;
+// Inactive profile -- bg-light
+// Player1 - #7fb3d5
+// Player2 - #f1c40f
+
+//Welcome message
+alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
+.set('closable', true)
+.set('label', '<i class="far fa-2x fa-hand-point-right" style="color:green;"></i>')
+.set('movable','false')
+.set({transition:'flipy'}).show();
+
+
+$(".button_custom").click(function(){
+if (typeof(Storage) !== "undefined") {
+    count++;
+    
+    //Profile Swaping
+	if(status==false || (sessionStorage.getItem("online")==="Player2"))
+	{
+	  sessionStorage.setItem("online","Player1");
+	  status=true;
+	  $("#profile1").removeClass("active_profile");
+	  $("#profile1").addClass("bg-light");
+
+	  $("#profile2").removeClass("bg-light");
+	  $("#profile2").addClass("active_profile");
+	  linecolor='#7fb3d5';
+	  $(this).attr("data-owner","Player1");
+	  ownerpic='<i class="card-img-top fab fa-reddit fa-3x"></i>';
+	}
+	else if(sessionStorage.getItem("online")==="Player1")
+	{
+	  sessionStorage.setItem("online","Player2");
+	  $("#profile2").removeClass("active_profile");
+	  $("#profile2").addClass("bg-light");
+	  
+	  $("#profile1").removeClass("bg-light");
+	  $("#profile1").addClass("active_profile");
+	  linecolor='#f1c40f';
+	  $(this).attr("data-owner","Player2");
+	  ownerpic='<i class="card-img-top fab fa-github-alt fa-3x"></i>';
+	}
+	
+	// Check Whether left-right-top-bottom
+	swal({ buttons: { 
+	   Top: {text: "TOP",value:"top",}, 
+	   Bottom:{text: "Bottom",value:"bottom",},
+	   Left: {text: "LEFT",value:"left",}, 
+	   Right: {text: "RIGHT",value:"right",}
+	   },
+	   })
+	.then((value) => 
+	{
+    switch (value) 
+    {
+    case "left": if($(this).data("left")===false || typeof $(this).data("left")==='undefined'){
+       $(this).css("border-left","4px solid "+linecolor);
+	   $(this).attr("data-left",true);
+	   if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+		  if(count===9)
+		  {
+		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
+			$("[data-owner=\"Player2\"]").each(function(){score2++;});
+			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+		  }
+		}
+		
+	   }
+      break;
+	case "right": if($(this).data("right")===false || typeof $(this).data("right")==='undefined'){
+      $(this).css("border-right","4px solid "+linecolor);
+	  $(this).attr("data-right",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+		if(count===9)
+		  {
+		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
+			$("[data-owner=\"Player2\"]").each(function(){score2++;});
+			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+		  }
+        }
+	  }
+      break;
+    case "top": if($(this).data("top")===false || typeof $(this).data("top")==='undefined'){
+      $(this).css("border-top","4px solid "+linecolor);
+	  $(this).attr("data-top",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+		$(this).css("background-color",linecolor);
+		$(this).css("border-color",linecolor);
+		$(this).html(ownerpic);
+		if(count===9)
+		  {
+		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
+			$("[data-owner=\"Player2\"]").each(function(){score2++;});
+			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+		  }
+		}
+	  }
+      break;
+	case "bottom": if($(this).data("bottom")===false || typeof $(this).data("bottom")==='undefined'){
+      $(this).css("border-bottom","4px solid "+linecolor);
+	  $(this).attr("data-bottom",true);
+	  if($(this).data("top")===true && $(this).data("bottom")===true && $(this).data("left")===true && $(this).data("right")===true)
+		{
+         $(this).css("background-color",linecolor);
+         $(this).css("border-color",linecolor);
+		 $(this).html(ownerpic);
+		 if(count===9)
+		  {
+		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
+			$("[data-owner=\"Player2\"]").each(function(){score2++;});
+			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+		  }
+		}
+	  }
+      break;
+    default:
+      console.log("Nothing");
+  }
+});
+	
+} 
+else {
+    alertify.alert("Sorry :( .. Browser Not Supported ..!!!!!");
+}
+
+});
+
+});
+
+</script>
+
+<!-- Player Info -->
+<div id="player_info" style="margin-top: 20px;">
+<div class="card border-secondary mb-3">
+  <div class="card-header">
+    PLAYERS
+  </div>
+  <div class="card-body">
+  <div class="card-group">
+  <div id="profile1" class="card active_profile">
+    <div class="card-body">
+	  <i class="card-img-top fab fa-reddit fa-3x"></i>
+      <h5 class="card-title">Player1</h5>
+    </div>
+  </div>
+  <div id="profile2" class="card bg-light">
+    <div class="card-body">
+	  <i class="card-img-top fab fa-github-alt fa-3x"></i>
+      <h5 class="card-title">Player2</h5>
+    </div> 
+  </div>
+</div>
+  </div>
+</div>
+</div>
+
+
+<!-- Div to display the Grid containing 9 boxes -->
+<div id="layout">
+  <!-- Div for each set of 3 blocks -->
+  <div class="row">
+    <button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+	<button type="button" class="btn btn-light button_custom"><i class="fas fa-3x fa-volleyball-ball"></i></button>
+  </div>
+  
+</div>
+
+</body>
+</html>
