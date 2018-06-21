@@ -89,7 +89,7 @@ var score2=0;
 // Player2 - #f1c40f
 
 //Welcome message
-alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
+alertify.alert(' Dot-Dot ', "Let's Start .. :)")
 .set('closable', true)
 .set('label', '<i class="far fa-2x fa-hand-point-right" style="color:green;"></i>')
 .set('movable','false')
@@ -98,7 +98,7 @@ alertify.alert(' Tic-Tac-Toe ', "Let's Start .. :)")
 
 $(".button_custom").click(function(){
 if (typeof(Storage) !== "undefined") {
-    count++;
+    
     
     //Profile Swaping
 	if(status==false || (sessionStorage.getItem("online")==="Player2"))
@@ -147,11 +147,12 @@ if (typeof(Storage) !== "undefined") {
 		$(this).css("background-color",linecolor);
 		$(this).css("border-color",linecolor);
 		$(this).html(ownerpic);
+		count++;
 		  if(count===9)
 		  {
 		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
 			$("[data-owner=\"Player2\"]").each(function(){score2++;});
-			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+			(score1>score2)?swal("Player1 Won!", "Score="+score1, "success"):swal("Player2 Won!", "Score="+score2, "success");
 		  }
 		}
 		
@@ -165,11 +166,12 @@ if (typeof(Storage) !== "undefined") {
 		$(this).css("background-color",linecolor);
 		$(this).css("border-color",linecolor);
 		$(this).html(ownerpic);
+		count++;
 		if(count===9)
 		  {
 		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
 			$("[data-owner=\"Player2\"]").each(function(){score2++;});
-			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+			(score1>score2)?swal("Player1 Won!", "Score="+score1, "success"):swal("Player2 Won!", "Score="+score2, "success");
 		  }
         }
 	  }
@@ -182,11 +184,12 @@ if (typeof(Storage) !== "undefined") {
 		$(this).css("background-color",linecolor);
 		$(this).css("border-color",linecolor);
 		$(this).html(ownerpic);
+		count++;
 		if(count===9)
 		  {
 		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
 			$("[data-owner=\"Player2\"]").each(function(){score2++;});
-			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+			(score1>score2)?swal("Player1 Won!", "Score="+score1, "success"):swal("Player2 Won!", "Score="+score2, "success");
 		  }
 		}
 	  }
@@ -199,11 +202,12 @@ if (typeof(Storage) !== "undefined") {
          $(this).css("background-color",linecolor);
          $(this).css("border-color",linecolor);
 		 $(this).html(ownerpic);
+		 count++;
 		 if(count===9)
 		  {
 		    $("[data-owner=\"Player1\"]").each(function(){score1++;});
 			$("[data-owner=\"Player2\"]").each(function(){score2++;});
-			(score1>score2)?swal("<i class=\"card-img-top fab fa-reddit fa-3x\"></i> Won!", "Score="+score1, "success"):swal("<i class=\"card-img-top fab fa-github-alt fa-3x\"></i> Won!", "Score="+score1, "success");
+			(score1>score2)?swal("Player1 Won!", "Score="+score1, "success"):swal("Player2 Won!", "Score="+score2, "success");
 		  }
 		}
 	  }
